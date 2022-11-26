@@ -1,0 +1,17 @@
+import scrapy
+
+
+class ForbesScraperSpider(scrapy.Spider):
+    name = "forbes_scraper"
+    allowed_domains = ["www.forbes.com"]
+    start_urls = ["https://www.forbes.com/lists/global2000/?sh=7215a7835ac0"]
+
+    
+    def parse(self, response):
+        for item in response.css("div.table-row-group a"):
+            yield {
+                "rank": item.css("div.rank.first.table-cell.rank::text").get(20)
+            }
+        pass
+
+        
